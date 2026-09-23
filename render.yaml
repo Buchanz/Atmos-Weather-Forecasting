@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: atmos-weather-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/status
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: FRONTEND_ORIGIN
+        value: https://buchanz.github.io

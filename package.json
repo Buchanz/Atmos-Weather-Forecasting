@@ -1,0 +1,29 @@
+{
+  "name": "atmos-weather",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "start": "node server/start.js",
+    "test": "node --test server/api.test.js src/services/weather.test.js",
+    "format": "prettier --write src server shared vite.config.js README.md",
+    "format:check": "prettier --check src server shared vite.config.js README.md"
+  },
+  "dependencies": {
+    "@meteocons/svg-static": "^0.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "prettier": "^3.6.2",
+    "vite": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
