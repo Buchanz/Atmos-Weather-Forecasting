@@ -185,17 +185,21 @@ export default function CitySearch({
                 <MapPin size={16} />
                 <span>
                   <strong>{place.name}</strong>
-                  <small>
-                    {[
-                      place.state,
-                      place.countryName || place.country,
-                      Number.isFinite(place.distanceKm)
-                        ? `${Math.round(place.distanceKm)} km away`
-                        : "",
-                    ]
-                      .filter(Boolean)
-                      .join(", ")}
+                  <small className="city-country">
+                    {place.countryName || place.country}
                   </small>
+                  {(place.state || Number.isFinite(place.distanceKm)) && (
+                    <small className="city-detail">
+                      {[
+                        place.state,
+                        Number.isFinite(place.distanceKm)
+                          ? `${Math.round(place.distanceKm)} km from ${currentPlace?.name || "your location"}`
+                          : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </small>
+                  )}
                 </span>
                 <ArrowUpRight size={14} />
               </button>
@@ -214,12 +218,9 @@ export default function CitySearch({
                   : current && result.error
                     ? result.error
                     : !items.length
-                      ? "No photographed city matches yet. Try a nearby major city."
+                      ? "No cities found. Try a different city or check the spelling."
                       : `${items.length} ${items.length === 1 ? "city" : "cities"} found. Use ↑ ↓ and Enter to select.`}
           </div>
-          <span className="search-credit">
-            Only cities with assigned photographs are listed.
-          </span>
         </div>
       )}
     </div>

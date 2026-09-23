@@ -1845,3 +1845,15 @@ button svg {
 .scene-background {
   background: #203b4a;
 }
+
+.autocomplete-menu button[role="option"] .city-country {
+  font-size: 12px;
+  font-weight: 400;
+  color: #c3d7e4;
+  margin-top: 3px;
+}
+.autocomplete-menu button[role="option"] .city-detail {
+  font-size: 10px;
+  margin-top: 2px;
+  color: #a5c5d6;
+}
