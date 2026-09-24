@@ -28,10 +28,6 @@ Atmos is a weather forecasting class project built with React, JavaScript, CSS, 
 
 The source is organized into `src/components` for interface elements, `src/hooks` for state and requests, `src/services` for weather utilities, `src/data` and `shared` for city information, and `server` for the weather API. Automated checks cover weather conversions, forecasts, request validation, error handling, and credential protection.
 
-## Privacy and API security
-
-Visitors do not need to provide an API key. The OpenWeather key is kept on the backend and is not included in the public website or repository. Private environment files are excluded from Git. Browser location access is optional.
-
 ## Availability and coverage
 
 The weather service may take a little longer to respond when waking after inactivity. If a request times out, wait briefly and retry.
