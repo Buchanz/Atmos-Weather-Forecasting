@@ -1,6 +1,8 @@
+import { worldScenes } from "./worldScenes.js";
 import { majorScenes } from "./majorScenes.js";
 import { verifiedScenes } from "./verifiedScenes.js";
 export const scenes = [
+  ...worldScenes,
   ...majorScenes,
   ...verifiedScenes,
   {

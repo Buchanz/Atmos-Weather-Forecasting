@@ -1,3 +1,4 @@
+import { cityRegions } from "../src/data/cityRegions.js";
 import { scenes } from "../src/data/scenes.js";
 export const normalize = (value) =>
   String(value || "")
@@ -11,6 +12,7 @@ export const cities = scenes.map((scene) => ({
   name: scene.name,
   country: scene.country,
   countryName: countries.of(scene.country),
+  state: cityRegions[scene.id] || "",
   lat: scene.lat,
   lon: scene.lon,
   aliases: scene.aliases,
@@ -24,9 +26,13 @@ export function searchCities(query) {
     .filter((city) =>
       terms.every((term) =>
         normalize(
-          [city.name, city.country, city.countryName, ...city.aliases].join(
-            " ",
-          ),
+          [
+            city.name,
+            city.state,
+            city.country,
+            city.countryName,
+            ...city.aliases,
+          ].join(" "),
         ).includes(term),
       ),
     )

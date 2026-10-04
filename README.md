@@ -44,3 +44,31 @@ Weather data is provided by [OpenWeather](https://openweathermap.org/). Photogra
 
 - [Live website](https://buchanz.github.io/Atmos-Weather-Forecasting/)
 - [GitHub repository](https://github.com/Buchanz/Atmos-Weather-Forecasting)
+
+## Run the source project locally
+
+The published website requires no setup. To run this submitted source code, install Node.js 22.12 or newer, then open a terminal in the project folder:
+
+```sh
+npm ci
+cp .env.example .env.local
+```
+
+Open `.env.local` and enter your own OpenWeatherMap key after `OPENWEATHER_API_KEY=`. Then run:
+
+```sh
+npm run dev
+```
+
+Open the local address printed in the terminal, usually http://127.0.0.1:5173. The local development server handles both the React app and weather requests. An OpenWeatherMap key with access to Current Weather and the 5 Day / 3 Hour Forecast is needed for live data. The submission includes a blank example configuration, not a personal key.
+
+Validation and production commands:
+
+```sh
+npm test
+npm run format:check
+npm run build
+npm start
+```
+
+`npm start` serves the production build on port 3000 by default. For separate GitHub Pages and Render hosting, set `VITE_API_BASE_URL` as a GitHub Actions repository variable pointing to the Render origin, and configure `OPENWEATHER_API_KEY` and `FRONTEND_ORIGIN` on Render. The included workflows and `render.yaml` contain the deployment configuration.

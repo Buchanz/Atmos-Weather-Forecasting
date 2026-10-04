@@ -224,3 +224,53 @@ test("only the configured frontend origin receives cross-origin access", async (
   assert.equal(check(allowed, "OPTIONS").status, 204);
   assert.equal(check("https://other.example", "OPTIONS").status, 403);
 });
+
+test("expanded catalog retains all Canadian provincial and territorial capitals", () => {
+  for (const name of [
+    "Victoria",
+    "Edmonton",
+    "Regina",
+    "Winnipeg",
+    "Toronto",
+    "Quebec City",
+    "Fredericton",
+    "Halifax",
+    "Charlottetown",
+    "St. John's",
+    "Whitehorse",
+    "Yellowknife",
+    "Iqaluit",
+  ]) {
+    assert.ok(
+      cities.some((city) => city.name === name && city.country === "CA"),
+      name,
+    );
+  }
+});
+
+test("every catalog entry resolves to its own attributed photo", async () => {
+  const { scenes, sceneForPlace } = await import("../src/data/scenes.js");
+  assert.equal(new Set(scenes.map((s) => s.id)).size, scenes.length);
+  for (const city of cities) {
+    const scene = sceneForPlace(city);
+    assert.ok(scene, city.name);
+    assert.equal(scene.id, city.id, city.name);
+    assert.ok(scene.source.startsWith("https://"));
+    assert.ok(scene.photographer.trim());
+    assert.ok(Number.isFinite(city.lat) && Math.abs(city.lat) <= 90);
+    assert.ok(Number.isFinite(city.lon) && Math.abs(city.lon) <= 180);
+  }
+});
+
+test("regional names distinguish worldwide city search results", async () => {
+  const api = createApiHandler();
+  const result = await call(
+    api,
+    "/api/suggestions?q=" + encodeURIComponent("Regina Saskatchewan"),
+  );
+  assert.ok(
+    result.body.some(
+      (city) => city.name === "Regina" && city.state === "Saskatchewan",
+    ),
+  );
+});
