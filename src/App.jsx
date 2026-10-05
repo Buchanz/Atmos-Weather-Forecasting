@@ -257,6 +257,7 @@ function WeatherDashboard({ weather, nearby }) {
           aria-expanded={mobileSearch}
           aria-controls="weather-panel"
           onClick={(event) => {
+            event.stopPropagation();
             lastTrigger.current = event.currentTarget;
             setExpanded(null);
             setMobileSearch((open) => !open);
