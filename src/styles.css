@@ -2105,3 +2105,21 @@ button svg {
     width: auto;
   }
 }
+
+/* Keep both mobile search controls circular, including native touch states. */
+@media (max-width: 600px), (max-height: 480px) and (max-width: 950px) {
+  .mobile-search-toggle,
+  .search-form button {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    flex-shrink: 0;
+    aspect-ratio: 1;
+    padding: 0;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
