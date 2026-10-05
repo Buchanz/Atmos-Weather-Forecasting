@@ -4,7 +4,7 @@ import { WeatherIcon } from "./WeatherVisual";
 import { temperature, localDate, groupForecast } from "../services/weather";
 export function HourlyForecast({ data, unit }) {
   const [page, setPage] = useState(0);
-  const list = data.list.slice(page * 6, page * 6 + 6);
+  const list = data.list.slice(0, 12);
   return (
     <section className="hourly-section" aria-label="Hourly forecast">
       <div className="section-heading">
@@ -28,10 +28,14 @@ export function HourlyForecast({ data, unit }) {
           </button>
         </div>
       </div>
-      <div className="hourly-list">
+      <div
+        className="hourly-list"
+        tabIndex={0}
+        aria-label="Swipe sideways for upcoming hours"
+      >
         {list.map((item, i) => (
           <article
-            className={`hour-card ${i === 0 && page === 0 ? "next-hour" : ""}`}
+            className={`hour-card ${i === 0 ? "next-hour" : ""} ${Math.floor(i / 6) !== page ? "off-page" : ""}`}
             key={item.dt}
           >
             <span className="hour-time">
