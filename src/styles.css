@@ -1857,3 +1857,251 @@ button svg {
   margin-top: 2px;
   color: #a5c5d6;
 }
+
+/* Mobile uses the whole photograph, with controls revealed only on demand. */
+.mobile-search-toggle,
+.mobile-weather-menu {
+  display: none;
+}
+@media (max-width: 600px), (max-height: 480px) and (max-width: 950px) {
+  .weather-window .scenic-view {
+    inset: 0;
+    padding: max(24px, env(safe-area-inset-top)) 24px 0;
+  }
+  .weather-window .scene-header {
+    flex-direction: row;
+    align-items: center;
+    padding-right: 56px;
+  }
+  .weather-window .scene-summary {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: calc(142px + env(safe-area-inset-bottom));
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+  }
+  .weather-window .large-temperature {
+    font-size: clamp(64px, 19vw, 94px);
+    line-height: 1;
+    letter-spacing: -5px;
+  }
+  .weather-window .city-summary {
+    flex: 1;
+    min-width: 130px;
+  }
+  .weather-window .city-summary h1 {
+    font-size: clamp(24px, 7vw, 34px);
+    overflow-wrap: anywhere;
+  }
+  .weather-window .city-summary p {
+    font-size: 11px;
+    white-space: normal;
+  }
+  .weather-window .condition-summary {
+    position: static;
+    flex-basis: 100%;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+  .weather-window .condition-summary .weather-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .weather-window .condition-summary span {
+    font-size: 13px;
+  }
+  .weather-window .scene-footer {
+    left: 24px;
+    right: 24px;
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    font-size: 9px;
+    max-height: 44px;
+    overflow: auto;
+  }
+  .mobile-search-toggle {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: max(16px, env(safe-area-inset-top));
+    right: 18px;
+    width: 48px;
+    height: 48px;
+    z-index: 12;
+    border: 1px solid #ffffff40;
+    border-radius: 50%;
+    background: #17304480;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 20px #0002;
+  }
+  .mobile-weather-menu {
+    display: flex;
+    position: absolute;
+    z-index: 8;
+    left: 16px;
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    padding: 6px;
+    gap: 4px;
+    border: 1px solid #ffffff35;
+    border-radius: 22px;
+    background: #183345bb;
+    backdrop-filter: blur(22px);
+    box-shadow: 0 8px 30px #0003;
+  }
+  .mobile-weather-menu button {
+    flex: 1;
+    min-height: 48px;
+    background: transparent;
+    border: 0;
+    border-radius: 16px;
+    font-size: 12px;
+  }
+  .mobile-weather-menu button[aria-expanded="true"] {
+    background: #ffffff20;
+  }
+  .weather-window .glass-panel {
+    display: none;
+  }
+  .weather-window.is-expanded .glass-panel {
+    display: flex;
+    top: auto;
+    bottom: calc(90px + env(safe-area-inset-bottom));
+    left: 10px;
+    right: 10px;
+    width: auto;
+    height: min(66dvh, 620px);
+    padding: 20px;
+    border: 1px solid #ffffff30;
+    border-radius: 28px;
+    background: #193448ed;
+    box-shadow: 0 -12px 50px #0004;
+    animation: mobile-sheet-in 0.3s ease both;
+  }
+  .weather-window.is-expanded .scenic-view {
+    opacity: 0.7;
+    filter: none;
+  }
+  .weather-window .expanded-title {
+    margin: 14px 0;
+  }
+  .weather-window .expanded-title h2 {
+    font-size: 24px;
+  }
+  .weather-window .detail-tabs {
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .weather-window .detail-tabs button {
+    font-size: 11px;
+    min-height: 40px;
+    white-space: normal;
+  }
+  .weather-window .detail-body {
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 14px 0;
+  }
+  .weather-window .expanded-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .weather-window .panel-controls {
+    margin-top: 0;
+    flex-shrink: 0;
+  }
+  .weather-window .units button,
+  .weather-window .refresh-button,
+  .weather-window .close-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .weather-window.mobile-search-open .glass-panel {
+    display: flex;
+    top: max(76px, calc(env(safe-area-inset-top) + 60px));
+    bottom: auto;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: calc(100dvh - 170px - env(safe-area-inset-top));
+    overflow-y: auto;
+    padding: 18px;
+    border: 1px solid #ffffff30;
+    border-radius: 24px;
+    background: #193448f5;
+    animation: mobile-sheet-in 0.25s ease both;
+  }
+  .mobile-search-open .collapsed-content {
+    display: block;
+    flex: none;
+  }
+  .mobile-search-open .destination-list > button:not(.my-location),
+  .mobile-search-open .summary-section,
+  .mobile-search-open .forecast-links,
+  .mobile-search-open .panel-controls {
+    display: none;
+  }
+  .mobile-search-open .location-options {
+    position: relative;
+    top: auto;
+    margin-top: 12px;
+    max-height: none;
+    box-shadow: none;
+  }
+  .mobile-search-open .search-form input {
+    font-size: 16px;
+    height: 48px;
+  }
+  .mobile-search-open .search-form button {
+    width: 48px;
+    height: 48px;
+  }
+  .weather-window .error-toast {
+    bottom: calc(92px + env(safe-area-inset-bottom));
+    z-index: 15;
+  }
+}
+@keyframes mobile-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .weather-window.is-expanded .glass-panel,
+  .weather-window.mobile-search-open .glass-panel {
+    animation: none;
+  }
+}
+
+@media (max-width: 600px), (max-height: 480px) and (max-width: 950px) {
+  .mobile-search-open .destination-list {
+    display: block;
+    margin-top: 12px;
+    padding: 0;
+    border: 0;
+  }
+  .mobile-search-open .destination-list .my-location {
+    display: flex;
+    min-height: 44px;
+  }
+}
+@media (max-height: 480px) and (max-width: 950px) {
+  .weather-window .scene-summary {
+    bottom: 110px;
+    gap: 12px;
+  }
+  .weather-window .hero-temperature {
+    font-size: 58px;
+  }
+  .weather-window .condition-summary {
+    width: auto;
+  }
+}

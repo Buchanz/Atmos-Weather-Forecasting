@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  Search,
   LocateFixed,
   RefreshCw,
   X,
@@ -97,6 +98,7 @@ function WeatherDashboard({ weather, nearby }) {
   const citySuggestions = useCitySuggestions(data.place, configured);
   const [unit, setUnit] = useState("C");
   const [expanded, setExpanded] = useState(null);
+  const [mobileSearch, setMobileSearch] = useState(false);
   const [loadedPhoto, setLoadedPhoto] = useState(null);
   const panelRef = useRef(null);
   const headingRef = useRef(null);
@@ -119,38 +121,47 @@ function WeatherDashboard({ weather, nearby }) {
   ];
 
   useEffect(() => {
-    if (!expanded) {
+    if (!expanded && !mobileSearch) {
       lastTrigger.current?.focus({ preventScroll: true });
       return;
     }
-    headingRef.current?.focus({ preventScroll: true });
+    if (mobileSearch) panelRef.current?.querySelector("input")?.focus();
+    else headingRef.current?.focus({ preventScroll: true });
     const onKey = (event) => {
       if (event.key === "Escape") {
         setExpanded(null);
+        setMobileSearch(false);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [expanded]);
+  }, [expanded, mobileSearch]);
   useEffect(() => {
-    if (!expanded) return;
+    if (!expanded && !mobileSearch) return;
     const onOutside = (event) => {
-      if (panelRef.current && !panelRef.current.contains(event.target))
+      if (event.target.closest(".mobile-search-toggle, .mobile-weather-menu"))
+        return;
+      if (panelRef.current && !panelRef.current.contains(event.target)) {
         setExpanded(null);
+        setMobileSearch(false);
+      }
     };
-    document.addEventListener("pointerdown", onOutside);
-    return () => document.removeEventListener("pointerdown", onOutside);
-  }, [expanded]);
+    document.addEventListener("click", onOutside);
+    return () => document.removeEventListener("click", onOutside);
+  }, [expanded, mobileSearch]);
   function openSection(section, event) {
     lastTrigger.current = event.currentTarget;
+    setMobileSearch(false);
     setExpanded(section);
   }
   function closeSection() {
+    setMobileSearch(false);
     setExpanded(null);
   }
   function choose(place) {
     prefetchCityPhoto(place);
     select(place);
+    setMobileSearch(false);
     setExpanded(null);
   }
 
@@ -160,7 +171,7 @@ function WeatherDashboard({ weather, nearby }) {
       style={{ "--outer-scene": scene ? `url("${scene.src}")` : "none" }}
     >
       <main
-        className={`weather-window ${expanded ? "is-expanded" : ""}`}
+        className={`weather-window ${expanded ? "is-expanded" : ""} ${mobileSearch ? "mobile-search-open" : ""}`}
         aria-busy={loading}
       >
         <SceneBackground
@@ -170,7 +181,7 @@ function WeatherDashboard({ weather, nearby }) {
         />
         <section className="scenic-view" aria-label="Current weather">
           <header className="scene-header">
-            <a className="wordmark" href="/">
+            <a className="wordmark" href={import.meta.env.BASE_URL}>
               atmos<span>.</span>
             </a>
             <span className="live-label">
@@ -240,7 +251,35 @@ function WeatherDashboard({ weather, nearby }) {
           </div>
         </section>
 
+        <button
+          className="mobile-search-toggle"
+          aria-label={mobileSearch ? "Close city search" : "Search for a city"}
+          aria-expanded={mobileSearch}
+          aria-controls="weather-panel"
+          onClick={(event) => {
+            lastTrigger.current = event.currentTarget;
+            setExpanded(null);
+            setMobileSearch((open) => !open);
+          }}
+        >
+          {mobileSearch ? <X size={22} /> : <Search size={22} />}
+        </button>
+        <nav className="mobile-weather-menu" aria-label="Weather information">
+          {sections.map(([id, label]) => (
+            <button
+              key={id}
+              aria-expanded={expanded === id}
+              aria-controls="weather-panel"
+              onClick={(event) =>
+                expanded === id ? closeSection() : openSection(id, event)
+              }
+            >
+              {label === "Weather details" ? "Details" : label}
+            </button>
+          ))}
+        </nav>
         <aside
+          id="weather-panel"
           ref={panelRef}
           className="glass-panel"
           aria-label={
